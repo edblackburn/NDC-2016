@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using NUnit.Framework;
 
-namespace hacks.inversion_of_control
+namespace hacks.action_maps
 {
     internal class Journey : IEquatable<Journey>, IComparable<Journey>
     {
@@ -182,7 +182,7 @@ namespace hacks.inversion_of_control
     {
         public short GetFare(OriginDestination originDestination, string mode)
         {
-            return 2;
+            return 10;
         }
 
         public bool Matches(string mode)
@@ -195,7 +195,7 @@ namespace hacks.inversion_of_control
     {
         public short GetFare(OriginDestination originDestination, string mode)
         {
-            return 2;
+            return 5;
         }
 
         public bool Matches(string mode)
