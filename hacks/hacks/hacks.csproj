@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="entities\JourneyMemento.cs" />
+    <Compile Include="entities\Journey.cs" />
+    <Compile Include="messaging\Document.cs" />
     <Compile Include="pets\Animal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
