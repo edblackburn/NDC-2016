@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace hacks.pets
+namespace hacks.abstraction
 {
     abstract class Animal
     {

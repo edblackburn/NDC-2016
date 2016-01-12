@@ -2,22 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using hacks.entities.value_objects;
 using NUnit.Framework;
 
 namespace hacks.messaging
 {
-    internal class Journey : IEquatable<Journey>, IComparable<Journey>
+    public class Journey : IEquatable<Journey>, IComparable<Journey>
     {
         private readonly List<Message> _messages = new List<Message>();
         private readonly Guid _id = SeqGuid.NewGuid();
 
         private short _fare;
 
-        private readonly Func<List<Message>, DeviceTapped> _origin = messages =>
-            messages.OfType<DeviceTapped>().FirstOrDefault();
+        private readonly Func<List<Message>, DeviceTapped> _origin =
+            messages => messages.OfType<DeviceTapped>().FirstOrDefault();
 
-        private readonly Func<List<Message>, DeviceTapped> _destination = messages =>
-            messages.OfType<DeviceTapped>().LastOrDefault();
+        private readonly Func<List<Message>, DeviceTapped> _destination =
+            messages => messages.OfType<DeviceTapped>().LastOrDefault();
+
+        public Journey():this(Guid.NewGuid())
+        {
+        }
+
+        internal Journey(Guid accountId)
+        {
+            AccountId = accountId;
+        }
+
+        public Guid AccountId { get; }
 
         internal void RecieveTap(DeviceTapped tap)
         {
@@ -27,43 +39,28 @@ namespace hacks.messaging
 
         internal void AssignFare(Fares fares)
         {
-            var origin = _origin(_messages);
-            if (null == origin)
-            {
-                _fare = 0;
-                return;
-            }
+            var originDestination = GetOriginDestination();
+            if (OriginDestination.HasNoJourney(originDestination)) return;
+            _fare = fares(originDestination);
+        }
 
-            var destination = _destination(_messages);
-            if (null == destination)
-            {
-                _fare = 0;
-                return;
-            }
-            _fare = fares(origin.Location, destination.Location);
+        private OriginDestination GetOriginDestination()
+        {
+            var origin = _origin(_messages);
+            var destination = _destination(_messages) ?? origin;
+
+            if (null == origin && null == destination) return OriginDestination.NoJourney();
+
+            var originDestination = OriginDestination.OriginToDestination(origin.Location, destination.Location);
+
+            return originDestination;
         }
 
         internal dynamic Export()
         {
-            var origin = string.Empty;
-            var destination = string.Empty;
-
-            var originTap = _origin(_messages);
-            if (null != originTap)
-            {
-                origin = originTap.Location;
-            }
-
-            var destinationTap = _destination(_messages);
-            if (null != destinationTap)
-            {
-                destination = destinationTap.Location;
-            }
-
             return new
             {
-                Origin = origin,
-                Destination = destination,
+                OriginDestination = GetOriginDestination(),
                 Fare = _fare
             };
         }
@@ -94,8 +91,6 @@ namespace hacks.messaging
         }
     }
 
-    internal delegate short Fares(string origin, string destination);
-
     internal class SeqGuid
     {
         [DllImport("rpcrt4.dll", SetLastError = true)]
@@ -119,15 +114,16 @@ namespace hacks.messaging
 
             var journey = new Journey();
 
-            var msg1 = new DeviceTapped(bank);
+            var msg1 = new DeviceTapped(journey.AccountId, bank, "rail");
 
             journey.RecieveTap(msg1);
 
-            journey.AssignFare((o, d) => fare);
+            journey.AssignFare(od => fare);
 
-            Assert.That(journey.Export().Origin, Is.EqualTo(bank));
-            Assert.That(journey.Export().Destination, Is.EqualTo(bank));
-            Assert.That(journey.Export().Fare, Is.EqualTo(10));
+            Func<dynamic> export = journey.Export;
+
+            Assert.That(export().OriginDestination, Is.EqualTo(OriginDestination.HereToHere(bank)));
+            Assert.That(export().Fare, Is.EqualTo(10));
         }
     }
 
@@ -141,10 +137,9 @@ namespace hacks.messaging
 
             var journey = new Journey();
 
-            journey.AssignFare((o, d) => fare);
+            journey.AssignFare(od => fare);
 
-            Assert.That(journey.Export().Origin, Is.EqualTo(string.Empty));
-            Assert.That(journey.Export().Destination, Is.EqualTo(string.Empty));
+            Assert.That(OriginDestination.HasNoJourney(journey.Export().OriginDestination), Is.True);
             Assert.That(journey.Export().Fare, Is.EqualTo(0));
         }
     }
@@ -161,16 +156,16 @@ namespace hacks.messaging
 
             var journey = new Journey();
 
-            var msg1 = new DeviceTapped(bank);
-            var msg2 = new DeviceTapped(westernGateway);
+            var msg1 = new DeviceTapped(journey.AccountId, bank, "rail");
+            var msg2 = new DeviceTapped(journey.AccountId, westernGateway, "rail");
 
             journey.RecieveTap(msg2);
             journey.RecieveTap(msg1);
 
-            journey.AssignFare((o, d) => fare);
+            journey.AssignFare(od => fare);
 
-            Assert.That(journey.Export().Origin, Is.EqualTo(bank));
-            Assert.That(journey.Export().Destination, Is.EqualTo(westernGateway));
+            Assert.That(journey.Export().OriginDestination,
+                Is.EqualTo(OriginDestination.OriginToDestination(bank, westernGateway)));
             Assert.That(journey.Export().Fare, Is.EqualTo(10));
         }
 
@@ -182,16 +177,15 @@ namespace hacks.messaging
 
             var journey = new Journey();
 
-            var msg1 = new DeviceTapped(bank);
-            var msg2 = new DeviceTapped(bank);
+            var msg1 = new DeviceTapped(journey.AccountId, bank, "rail");
+            var msg2 = new DeviceTapped(journey.AccountId, bank, "rail");
 
             journey.RecieveTap(msg2);
             journey.RecieveTap(msg1);
 
-            journey.AssignFare((o, d) => fare);
+            journey.AssignFare(od => fare);
 
-            Assert.That(journey.Export().Origin, Is.EqualTo(bank));
-            Assert.That(journey.Export().Destination, Is.EqualTo(bank));
+            Assert.That(journey.Export().OriginDestination, Is.EqualTo(OriginDestination.HereToHere(bank)));
             Assert.That(journey.Export().Fare, Is.EqualTo(10));
         }
     }
@@ -220,13 +214,17 @@ namespace hacks.messaging
         }
     }
 
-    internal class DeviceTapped : Message
+    public class DeviceTapped : Message
     {
-        public DeviceTapped(string location)
+        public DeviceTapped(Guid accountId, string location, string mode)
         {
+            AccountId = accountId;
             Location = location;
+            Mode = mode;
         }
 
         public string Location { get; }
+        public string Mode { get; }
+        public Guid AccountId { get; }
     }
 }
