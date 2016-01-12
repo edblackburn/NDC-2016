@@ -1,9 +1,16 @@
 ﻿using System;
-using NUnit.Framework;
+using Castle.Facilities.TypedFactory.Internal;
 
-namespace hacks.entities.value_objects
+namespace hacks.modelling.value_objects
 {
-    public struct OriginDestination : IEquatable<OriginDestination>
+
+    /* 
+    https://lostechies.com/jimmybogard/2007/06/25/generic-value-object-equality/
+    */
+
+    public delegate short Fares(OriginDestination originDestination);
+    
+    public class OriginDestination : IEquatable<OriginDestination>
     {
         public readonly string Origin;
         public readonly string Destination;
@@ -70,56 +77,6 @@ namespace hacks.entities.value_objects
             {
                 return (Origin.GetHashCode()*397) ^ Destination.GetHashCode();
             }
-        }
-    }
-
-    internal class Journey
-    {
-        private readonly OriginDestination _originDestination;
-        private short _fare;
-
-        public Journey(OriginDestination originDestination)
-        {
-            _originDestination = originDestination;
-        }
-
-        internal void AssignFare(Fares fares)
-        {
-            _fare = fares(_originDestination);
-        }
-
-        internal dynamic Export()
-        {
-            return new
-            {
-                _originDestination.Origin,
-                _originDestination.Destination,
-                Fare = _fare
-            };
-        }
-    }
-
-    internal delegate short Fares(OriginDestination originDestination);
-
-    [TestFixture]
-    public class when_journey_is_exported
-    {
-        [Test]
-        public void should_include_fare()
-        {
-            const string origin = "Bank";
-            const string destination = "Western Gateway";
-            const short fare = 10;
-
-            var jny = new Journey(OriginDestination.OriginToDestination(origin, destination));
-
-            jny.AssignFare(od => fare);
-
-            dynamic export = jny.Export();
-
-            Assert.That(export.Origin, Is.EqualTo(origin));
-            Assert.That(export.Destination, Is.EqualTo(destination));
-            Assert.That(export.Fare, Is.EqualTo(fare));
         }
     }
 }

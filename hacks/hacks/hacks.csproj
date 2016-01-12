@@ -36,28 +36,24 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="blazey.substituter, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\blazey.substituter.0.1\lib\net40\blazey.substituter.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\blazey.substituter.0.1\lib\net40\Castle.Core.dll</HintPath>
+      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\blazey.substituter.0.1\lib\net40\Castle.Windsor.dll</HintPath>
+      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Moq, Version=4.2.1507.118, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\blazey.substituter.0.1\lib\net40\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.0.5813.39031, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -66,27 +62,51 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="factories\DependencyInjectedNetwork.cs" />
-    <Compile Include="factories\MappedNetwork.cs" />
-    <Compile Include="factories\SpaghettiNetwork.cs" />
-    <Compile Include="factories\SwitchNetwork.cs" />
-    <Compile Include="entities\anemic\Journey.cs" />
-    <Compile Include="entities\fat_model\Journey.cs" />
-    <Compile Include="entities\explicit_interfaces_for_behaviour\Journey.cs" />
-    <Compile Include="entities\memento\Journey.cs" />
-    <Compile Include="entities\tell_dont_ask\Journey.cs" />
-    <Compile Include="entities\value_objects\Journey.cs" />
-    <Compile Include="factories\when_journey_from_bank_to_western_gateway.cs" />
-    <Compile Include="messaging\Journey.cs" />
+    <Compile Include="modelling\2 - tell_dont_ask\when_journey_is_exported.cs" />
+    <Compile Include="modelling\3 - explicit_interfaces_for_behaviour\when_journeys_are_compared.cs" />
+    <Compile Include="modelling\4 - memento\when_journeys_are_compared.cs" />
+    <Compile Include="factories\specs\AccountSpy.cs" />
+    <Compile Include="factories\modes\Bus.cs" />
+    <Compile Include="factories\networks\DependencyInjectedNetwork.cs" />
+    <Compile Include="factories\HandleDevice.cs" />
+    <Compile Include="factories\IAccount.cs" />
+    <Compile Include="factories\INetwork.cs" />
+    <Compile Include="factories\InstallDevices.cs" />
+    <Compile Include="factories\modes\InvalidMode.cs" />
+    <Compile Include="factories\modes\ISatisfyMode.cs" />
+    <Compile Include="factories\networks\MappedNetwork.cs" />
+    <Compile Include="factories\modes\Rail.cs" />
+    <Compile Include="factories\networks\SpaghettiNetwork.cs" />
+    <Compile Include="factories\networks\SwitchNetwork.cs" />
+    <Compile Include="modelling\0 - anemic\Journey.cs" />
+    <Compile Include="modelling\1 - fat_model\Journey.cs" />
+    <Compile Include="modelling\3 - explicit_interfaces_for_behaviour\Journey.cs" />
+    <Compile Include="modelling\4 - memento\Journey.cs" />
+    <Compile Include="modelling\2 - tell_dont_ask\Journey.cs" />
+    <Compile Include="modelling\4 - memento\when_journey_is_projected.cs" />
+    <Compile Include="modelling\5 - value_objects\AccountId.cs" />
+    <Compile Include="modelling\5 - value_objects\Journey.cs" />
+    <Compile Include="factories\specs\when_journey_recieves_origin_to_destination_tap_message.cs" />
+    <Compile Include="modelling\6 - messaging\DeviceTappedCommand.cs" />
+    <Compile Include="modelling\6 - messaging\Journey.cs" />
     <Compile Include="abstraction\Animal.cs" />
+    <Compile Include="modelling\6 - messaging\TapComparer.cs" />
+    <Compile Include="SeqGuid.cs" />
+    <Compile Include="modelling\6 - messaging\specs\when_journey_recieves_here_to_here_tap_message.cs" />
+    <Compile Include="modelling\6 - messaging\specs\when_journey_recieves_no_tap.cs" />
+    <Compile Include="modelling\6 - messaging\specs\when_journey_recieves_origin_to_destination_tap_message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="factories\Factories.cd" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="features\" />
+    <Folder Include="features\ab\" />
+    <Folder Include="features\off\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

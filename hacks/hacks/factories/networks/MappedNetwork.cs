@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using hacks.entities.value_objects;
+using hacks.modelling.value_objects;
 
-namespace hacks.factories
+namespace hacks.factories.networks
 {
     internal class MappedNetwork : INetwork
     {

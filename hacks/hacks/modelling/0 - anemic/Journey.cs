@@ -1,7 +1,11 @@
-﻿namespace hacks.entities.anemic
+﻿using System;
+
+namespace hacks.modelling.anemic
 {
     internal class Journey
     {
+        public Guid JouneyId { get; set; }
+        public Guid AccountId { get; set; }
         public string Origin { get; set; }
         public string Destination { get; set; }
         public short Fare { get; set; }

@@ -3,7 +3,7 @@ using System.IO;
 
 namespace hacks.abstraction
 {
-    abstract class Animal
+    internal abstract class Animal
     {
         protected internal TextWriter Writer { get; }
 
@@ -25,7 +25,7 @@ namespace hacks.abstraction
         }
     }
 
-    class Lion : Animal
+    internal class Lion : Animal
     {
         public Lion() : base(Console.Out)
         {
@@ -40,7 +40,7 @@ namespace hacks.abstraction
         internal override short NumberOfLegs { get; }
     }
 
-    class Snake : Animal
+    internal class Snake : Animal
     {
         public Snake() : base(Console.Out)
         {
