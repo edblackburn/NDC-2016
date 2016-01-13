@@ -34,12 +34,10 @@ namespace hacks.factories.specs
 
             handleDevice.Handle(tappedAtBankCommand);
             handleDevice.Handle(tappedAtprinceRegentCommand);
-
-            var projection = accountSpy.Get(accountId).Project();
-
-            Assert.That(projection.OriginDestination,
+            
+            Assert.That(accountSpy[accountId].OriginDestination,
                 Is.EqualTo(OriginDestination.OriginToDestination(bank, princeRegent)));
-            Assert.That(projection.Fare, Is.EqualTo(5));
+            Assert.That(accountSpy[accountId].Fare, Is.EqualTo(5));
 
             container.Release(handleDevice);
         }
@@ -66,13 +64,12 @@ namespace hacks.factories.specs
 
             handleDevice.Handle(firstBankTapCommand);
             handleDevice.Handle(secondBankTapCommand);
+           
+            Assert.That(accountSpy[accountId].OriginDestination, 
+                Is.EqualTo(OriginDestination.HereToHere(bank)));
 
-            var projection = accountSpy.Get(accountId).Project();
-
-            Assert.That(projection.OriginDestination, Is.EqualTo(OriginDestination.HereToHere(bank)));
-            Assert.That(projection.Fare, Is.EqualTo(0));
-
-
+            Assert.That(accountSpy[accountId].Fare, Is.EqualTo(0));
+            
             container.Release(handleDevice);
         }
 

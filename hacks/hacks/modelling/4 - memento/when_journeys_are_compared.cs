@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 
-namespace hacks.modelling.memento.memento
+namespace hacks.modelling.memento
 {
     [TestFixture]
     public class when_journeys_are_compared

@@ -2,11 +2,10 @@
 using Moq;
 using NUnit.Specifications;
 
-namespace hacks.Testing
+namespace hacks.testing.anemic
 {
     internal class when_fare_is_assigned_to_journey : ContextSpecification
     {
-
         private Establish that = () =>
         {
             _mockery = new Mock<IFareRepository>();
@@ -18,7 +17,7 @@ namespace hacks.Testing
 
         private Because fare_assigned = () => _service.AssignFare(_journey);
 
-        It should_invoke_reposoitory = () =>
+        It should_query_fare = () =>
             _mockery.Verify(r => r.GetFare(_bank, _princeRegent));
 
         private static Mock<IFareRepository> _mockery;

@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework;
 
-namespace hacks.modelling.memento.memento
+namespace hacks.modelling.memento
 {
     [TestFixture]
     public class when_journey_is_projected

@@ -1,8 +1,7 @@
 ﻿using hacks.modelling.anemic;
-using Moq;
 using NUnit.Framework;
 
-namespace hacks.Testing
+namespace hacks.testing.anemic
 {
     [TestFixture]
     public class FaresIntegrationTests

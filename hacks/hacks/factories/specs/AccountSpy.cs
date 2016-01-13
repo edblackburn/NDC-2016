@@ -17,5 +17,7 @@ namespace hacks.factories.specs
         {
             _journeys[journey.AccountId] = journey;
         }
+
+        public dynamic this[Guid id] => Get(id).Project();
     }
 }

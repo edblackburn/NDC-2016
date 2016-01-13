@@ -2,7 +2,7 @@
 using Moq;
 using NUnit.Framework;
 
-namespace hacks.Testing
+namespace hacks.testing.anemic
 {
     [TestFixture]
     public class FaresTests
@@ -11,9 +11,9 @@ namespace hacks.Testing
         public void BankToPrinceRegentFare()
         {
             var journey = new Journey {Origin = "Bank", Destination = "Prince Regent"};
-            var fareService = new FareService(new FareRepository());
+            var service = new FareService(new FareRepository());
 
-            fareService.AssignFare(journey);
+            service.AssignFare(journey);
 
             Assert.That(journey.Fare, Is.EqualTo(10));
         }

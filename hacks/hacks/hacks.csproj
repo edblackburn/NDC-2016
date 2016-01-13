@@ -94,7 +94,7 @@
     <Compile Include="features\toggle\Off.cs" />
     <Compile Include="features\toggle\IFeature.cs" />
     <Compile Include="features\toggle\when_feature_is_toggled_off.cs" />
-    <Compile Include="modelling\2 - tell_dont_ask\when_journey_is_exported.cs" />
+    <Compile Include="modelling\2 - tell_dont_ask\when_journey_is_projected.cs" />
     <Compile Include="modelling\3 - explicit_interfaces_for_behaviour\when_journeys_are_compared.cs" />
     <Compile Include="modelling\4 - memento\when_journeys_are_compared.cs" />
     <Compile Include="factories\specs\AccountSpy.cs" />
@@ -128,9 +128,10 @@
     <Compile Include="modelling\6 - messaging\specs\when_journey_recieves_no_tap.cs" />
     <Compile Include="modelling\6 - messaging\specs\when_journey_recieves_origin_to_destination_tap_message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Testing\FaresTests.cs" />
-    <Compile Include="Testing\FaresIntegrationTests.cs" />
-    <Compile Include="Testing\Specification.cs" />
+    <Compile Include="testing\anemic\FaresTests.cs" />
+    <Compile Include="testing\anemic\FaresIntegrationTests.cs" />
+    <Compile Include="testing\anemic\Specification.cs" />
+    <Compile Include="testing\messaging\when_bank_to_prince_regent_journey.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

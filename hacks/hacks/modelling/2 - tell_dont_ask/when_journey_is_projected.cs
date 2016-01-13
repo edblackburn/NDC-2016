@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace hacks.modelling.tell_dont_ask
 {
     [TestFixture]
-    public class when_journey_is_exported
+    public class when_journey_is_projected
     {
         [Test]
         public void should_incude_fields()
@@ -19,13 +19,13 @@ namespace hacks.modelling.tell_dont_ask
 
             jny.AssignFare((origin, destination) => fare);
 
-            dynamic export = jny.Export();
+            dynamic projection = jny.Project();
 
-            Assert.That(export.AccountId,Is.EqualTo(accountId));
-            Assert.That(export.JourneyId, Is.EqualTo(id));
-            Assert.That(export.Origin, Is.EqualTo(bank));
-            Assert.That(export.Destination, Is.EqualTo(princeRegent));
-            Assert.That(export.Fare, Is.EqualTo(10));
+            Assert.That(projection.AccountId,Is.EqualTo(accountId));
+            Assert.That(projection.JourneyId, Is.EqualTo(id));
+            Assert.That(projection.Origin, Is.EqualTo(bank));
+            Assert.That(projection.Destination, Is.EqualTo(princeRegent));
+            Assert.That(projection.Fare, Is.EqualTo(10));
         }
     }
 }
