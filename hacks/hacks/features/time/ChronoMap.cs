@@ -14,9 +14,8 @@ namespace hacks.features.time
 
         public Type ImplementationType()
         {
-            var releaseDate = new DateTimeOffset(2015, 2, 2, 13, 0, 0, TimeSpan.Zero);
-            if (releaseDate >= _now()) return typeof (NewFeature);
-            return typeof (OldFeature);
+            var releaseDate = new DateTimeOffset(2016, 2, 2, 13, 0, 0, TimeSpan.Zero);
+            return releaseDate >= _now() ? typeof (NewFeature) : typeof (OldFeature);
         }
 
         public Type FeatureType => typeof (IFeature);

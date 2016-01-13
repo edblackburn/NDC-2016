@@ -10,7 +10,7 @@ namespace hacks.features.time
     public class when_feature_goes_live
     {
         [Test]
-        public void should_resolve_to_experimental()
+        public void should_resolve_to_new_feature()
         {
             var container = new WindsorContainer()
                 .Register(
@@ -25,7 +25,7 @@ namespace hacks.features.time
 
             var market = container.Resolve<IFeature>();
 
-            Assert.That(market, Is.InstanceOf<OldFeature>());
+            Assert.That(market, Is.InstanceOf<NewFeature>());
         }
     }
 }
