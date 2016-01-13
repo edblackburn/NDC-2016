@@ -36,12 +36,16 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="blazey.features, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\blazey.features.0.1\lib\net40\blazey.features.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="blazey.substituter, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\blazey.substituter.0.1\lib\net40\blazey.substituter.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
+      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
@@ -62,6 +66,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="features\behaviour\HttpContextAccessor.cs" />
+    <Compile Include="features\behaviour\IHttpContextAccessor.cs" />
+    <Compile Include="features\ip\Coin.cs" />
+    <Compile Include="features\ip\IMarketingStrategy.cs" />
+    <Compile Include="features\ip\MarketingMap.cs" />
+    <Compile Include="features\ip\MarketingStrategyA.cs" />
+    <Compile Include="features\ip\MarketingStrategyB.cs" />
+    <Compile Include="features\ip\when_feature_is_split.cs" />
+    <Compile Include="features\behaviour\IFeature.cs" />
+    <Compile Include="features\behaviour\EarlyAccessMap.cs" />
+    <Compile Include="features\behaviour\Experimental.cs" />
+    <Compile Include="features\behaviour\DefaultBehaviour.cs" />
+    <Compile Include="features\behaviour\when_feature_is_determined_by_ipaddress.cs" />
+    <Compile Include="features\time\NewFeature.cs" />
+    <Compile Include="features\time\ChronoMap.cs" />
+    <Compile Include="features\time\Now.cs" />
+    <Compile Include="features\time\OldFeature.cs" />
+    <Compile Include="features\time\IFeature.cs" />
+    <Compile Include="features\time\when_feature_goes_live.cs" />
+    <Compile Include="features\toggle\On.cs" />
+    <Compile Include="features\toggle\Toggle.cs" />
+    <Compile Include="features\toggle\Off.cs" />
+    <Compile Include="features\toggle\IFeature.cs" />
+    <Compile Include="features\toggle\when_feature_is_toggled_off.cs" />
     <Compile Include="modelling\2 - tell_dont_ask\when_journey_is_exported.cs" />
     <Compile Include="modelling\3 - explicit_interfaces_for_behaviour\when_journeys_are_compared.cs" />
     <Compile Include="modelling\4 - memento\when_journeys_are_compared.cs" />
@@ -104,10 +132,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="features\ab\" />
-    <Folder Include="features\off\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
