@@ -26,8 +26,9 @@ namespace hacks.modelling.anemic
         }
     }
 
-    internal interface IFareRepository
+    public interface IFareRepository
     {
         short GetFare(string origin, string destination);
     }
+
 }
