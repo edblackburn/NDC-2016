@@ -15,7 +15,7 @@ namespace hacks.features.ip
         public Type ImplementationType()
         {
             return _coin.Flip() == 0
-                ? typeof (MarketingStrategyB)
+                ? typeof (MarketingStrategyA)
                 : typeof (MarketingStrategyB);
         }
 
